@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app_submission/data/modal/restaurant.dart';
 import 'package:restaurant_app_submission/screen/home/home_screen.dart';
 import 'package:restaurant_app_submission/screen/restaurant_detail/restaurant_screen.dart';
 import 'package:restaurant_app_submission/screen/splash_screen.dart';
@@ -38,8 +37,7 @@ class MyApp extends StatelessWidget {
         '/splashscreen': (context) => const SplashScreen(),
         '/home': (context) => const HomeScreen(),
         RestaurantScreen.namedRoute: (context) => RestaurantScreen(
-            restaurant:
-                ModalRoute.of(context)?.settings.arguments as Restaurant)
+            restaurantId: ModalRoute.of(context)?.settings.arguments as String)
       },
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );

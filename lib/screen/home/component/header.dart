@@ -45,22 +45,6 @@ class HomeHeader extends StatelessWidget {
               )
             ],
           ),
-          // const SizedBox(
-          //   height: 10,
-          // ),
-          // TextField(
-          //   textAlignVertical: TextAlignVertical.center,
-          //   decoration: const InputDecoration(
-          //       prefixIcon: Icon(
-          //         Icons.search,
-          //         color: Colors.grey,
-          //       ),
-          //       suffixIcon: Icon(
-          //         Icons.sort,
-          //         color: Colors.grey,
-          //       )),
-          //   style: Theme.of(context).textTheme.bodyLarge,
-          // )
         ],
       ),
     );

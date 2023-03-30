@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app_submission/themes/themes.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const String namedRoute = '/';
+  static const String namedRoute = '/splashscreen';
 
   const SplashScreen({super.key});
   @override
