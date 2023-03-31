@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app_submission/themes/themes.dart';
 
+import '../../search/search_screen.dart';
+
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
@@ -41,7 +43,9 @@ class HomeHeader extends StatelessWidget {
                     color: thirdColor,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, SearchScreen.namedRoute);
+                },
               )
             ],
           ),

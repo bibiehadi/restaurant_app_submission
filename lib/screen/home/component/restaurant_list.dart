@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app_submission/provider/restaurant_detail_provider.dart';
+import 'package:restaurant_app_submission/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app_submission/screen/home/component/card_restaurant.dart';
 
 import '../../../data/api/api_service.dart';
 import '../../../data/modal/list_restaurant.dart';
 import '../../../themes/themes.dart';
+
+import 'package:provider/provider.dart';
 
 class RestaurantList extends StatefulWidget {
   const RestaurantList({super.key});
@@ -163,25 +167,45 @@ class _RestaurantListState extends State<RestaurantList> {
               ),
             ),
             Expanded(
-              child: FutureBuilder(
-                future: _restaurant,
-                builder:
-                    (context, AsyncSnapshot<RestaurantListResult> snapshot) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: defaultPadding / 2),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snapshot.data?.restaurants.length,
-                      itemBuilder: ((context, index) {
-                        var restaurant = snapshot.data?.restaurants[index];
-                        if (restaurant != null) {
+              child: Consumer<RestaurantProvider>(
+                builder: (context, state, _) {
+                  if (state.state == ResultListState.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(color: secondaryColor),
+                    );
+                  } else if (state.state == ResultListState.hasData) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: defaultPadding / 2),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.restaurantListResult.count,
+                        itemBuilder: ((context, index) {
+                          var restaurant =
+                              state.restaurantListResult.restaurants[index];
                           return CardRestaurant(restaurant: restaurant);
-                        }
-                        return null;
-                      }),
-                    ),
-                  );
+                        }),
+                      ),
+                    );
+                  } else if (state.state == ResultListState.noData) {
+                    return Center(
+                      child: Material(
+                        child: Text(state.message),
+                      ),
+                    );
+                  } else if (state.state == ResultListState.error) {
+                    return Center(
+                      child: Material(
+                        child: Text(state.message),
+                      ),
+                    );
+                  } else {
+                    return const Center(
+                      child: Material(
+                        child: Text(''),
+                      ),
+                    );
+                  }
                 },
               ),
             ),
