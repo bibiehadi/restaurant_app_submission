@@ -35,16 +35,20 @@ class _SplashScreen extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const <Widget>[
-              Icon(
-                Icons.food_bank,
-                size: 180,
-                color: Colors.black87,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Image.asset(
+                  'assets/images/restaurant.png',
+                  fit: BoxFit.fill,
+                  width: 200,
+                  height: 200,
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12.0,
               ),
-              Text(
+              const Text(
                 "Restaurant App",
                 style: TextStyle(
                   color: Colors.black87,

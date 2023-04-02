@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app_submission/provider/restaurant_detail_provider.dart';
 import 'package:restaurant_app_submission/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app_submission/screen/home/component/card_restaurant.dart';
 
@@ -17,12 +16,9 @@ class RestaurantList extends StatefulWidget {
 }
 
 class _RestaurantListState extends State<RestaurantList> {
-  late Future<RestaurantListResult> _restaurant;
-
   @override
   void initState() {
     super.initState();
-    _restaurant = ApiService().allRestaurant();
   }
 
   @override
@@ -194,15 +190,62 @@ class _RestaurantListState extends State<RestaurantList> {
                       ),
                     );
                   } else if (state.state == ResultListState.error) {
-                    return Center(
-                      child: Material(
-                        child: Text(state.message),
+                    return Material(
+                      color: primaryColor,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Image.asset(
+                              'assets/images/no-wifi.png',
+                              fit: BoxFit.fill,
+                              width: 200,
+                              height: 200,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            'No internet connection',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     );
                   } else {
-                    return const Center(
+                    return Center(
                       child: Material(
-                        child: Text(''),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Image.asset(
+                                'assets/images/no-wifi.png',
+                                fit: BoxFit.fill,
+                                width: 200,
+                                height: 200,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Text(
+                              'No internet connection',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }

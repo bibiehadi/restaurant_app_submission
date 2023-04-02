@@ -7,13 +7,15 @@ import 'package:provider/provider.dart';
 class RestaurantScreen extends StatefulWidget {
   static const String namedRoute = '/restaurant';
   final String restaurantId;
-  RestaurantScreen({super.key, required this.restaurantId});
+  const RestaurantScreen({super.key, required this.restaurantId});
 
   @override
   State<RestaurantScreen> createState() => _RestaurantScreenState();
 }
 
 class _RestaurantScreenState extends State<RestaurantScreen> {
+  bool isReadMore = false;
+
   @override
   void initState() {
     super.initState();
@@ -95,21 +97,80 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                               ],
                             ),
                             const SizedBox(
+                              height: 5.0,
+                            ),
+                            Text(state.restaurantResult.restaurant.address,
+                                style: Theme.of(context).textTheme.bodyLarge),
+                            const SizedBox(
                               height: 10.0,
                             ),
                             Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.location_on,
-                                  size: 20,
-                                  color: Colors.red.shade400,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.location_on,
+                                      size: 20,
+                                      color: Colors.red.shade400,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(state.restaurantResult.restaurant.city,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge),
+                                  ],
                                 ),
                                 const SizedBox(
-                                  width: 8,
+                                  width: 100.0,
                                 ),
-                                Text(state.restaurantResult.restaurant.city,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge),
+                                Flexible(
+                                  child: SizedBox(
+                                    height: 40,
+                                    child: ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      children: state.restaurantResult
+                                          .restaurant.categories
+                                          .map(
+                                            (cat) => Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4),
+                                              alignment: Alignment.center,
+                                              child: TextButton(
+                                                onPressed: () {},
+                                                style: TextButton.styleFrom(
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  backgroundColor:
+                                                      Colors.grey.shade200,
+                                                  side: const BorderSide(
+                                                      color: primaryColor,
+                                                      width: 1),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  cat.name,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelLarge
+                                                      ?.copyWith(
+                                                          color:
+                                                              secondaryColor),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                             const SizedBox(
@@ -153,24 +214,31 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 Text(
                                   state.restaurantResult.restaurant.description,
                                   style: Theme.of(context).textTheme.bodyMedium,
-                                  maxLines: state.isReadMore ? 10 : 2,
+                                  maxLines: isReadMore ? 10 : 2,
                                 ),
                                 Container(
                                     alignment: Alignment.bottomRight,
                                     padding: const EdgeInsets.all(8.0),
                                     child: InkWell(
                                       child: Text(
-                                        state.isReadMore
-                                            ? "Read less"
-                                            : "Read more",
+                                        isReadMore ? "Read less" : "Read more",
                                         style: const TextStyle(
                                             color: secondaryColor),
                                       ),
                                       onTap: () {
-                                        state.isReadMore = !state.isReadMore;
+                                        setState(() {
+                                          isReadMore = !isReadMore;
+                                        });
                                       },
                                     ))
                               ],
+                            ),
+                            const Divider(
+                              color: Colors.grey,
+                              height: 25,
+                              thickness: 1,
+                              indent: 3,
+                              endIndent: 5,
                             ),
                             Text(
                               'Menus : ',
@@ -211,15 +279,20 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                         padding: const EdgeInsets.all(4.0),
                                         child: Column(
                                           children: [
-                                            const Expanded(
-                                              child: SizedBox.square(
-                                                child: Icon(
-                                                  Icons.restaurant_menu,
-                                                  size: 50,
+                                            Expanded(
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: Image.asset(
+                                                  'assets/images/ramen.png',
+                                                  fit: BoxFit.fill,
                                                 ),
                                               ),
                                             ),
-                                            Text(food.name)
+                                            Text(
+                                              food.name,
+                                              textAlign: TextAlign.center,
+                                            )
                                           ],
                                         ));
                                   }).toList()),
@@ -244,7 +317,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 children: state
                                     .restaurantResult.restaurant.menus.drinks
                                     .map(
-                                  (food) {
+                                  (drink) {
                                     return Container(
                                       width: 130,
                                       margin: const EdgeInsets.symmetric(
@@ -257,15 +330,97 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                       padding: const EdgeInsets.all(4.0),
                                       child: Column(
                                         children: [
-                                          const Expanded(
-                                            child: SizedBox.square(
-                                              child: Icon(
-                                                Icons.local_drink,
-                                                size: 50,
+                                          Expanded(
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Image.asset(
+                                                'assets/images/drink.png',
+                                                fit: BoxFit.fill,
                                               ),
                                             ),
                                           ),
-                                          Text(food.name)
+                                          Text(drink.name)
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            const Divider(
+                              color: Colors.grey,
+                              height: 25,
+                              thickness: 1,
+                              indent: 3,
+                              endIndent: 5,
+                            ),
+                            Text(
+                              'Review : ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            SizedBox(
+                              height: 100,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: state
+                                    .restaurantResult.restaurant.customerReviews
+                                    .map(
+                                  (reviewer) {
+                                    return Container(
+                                      width: 200,
+                                      padding: const EdgeInsets.all(10.0),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 4),
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: primaryColor),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            reviewer.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ),
+                                          const SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Text(
+                                            reviewer.date,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium,
+                                          ),
+                                          const SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          Text(
+                                            reviewer.review,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                            maxLines: 2,
+                                          ),
                                         ],
                                       ),
                                     );
@@ -289,7 +444,32 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             } else if (state.state == ResultState.error) {
               return Center(
                 child: Material(
-                  child: Text(state.message),
+                  color: thirdColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset(
+                          'assets/images/no-wifi.png',
+                          fit: BoxFit.fill,
+                          width: 200,
+                          height: 200,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Text(
+                        'No internet connection',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
               );
             } else {

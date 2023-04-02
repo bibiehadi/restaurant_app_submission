@@ -1,14 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../data/api/api_service.dart';
 import '../data/modal/restaurant.dart';
 
-enum ResultState { loading, noData, hasData, error }
+enum ResultState { loading, noData, hasData, error, noInternet }
 
 class RestaurantDetailProvider extends ChangeNotifier {
   final ApiService apiService;
   final String id;
-  bool isReadMore = false;
 
   RestaurantDetailProvider({required this.apiService, required this.id}) {
     _fetchRestaurantDetail(id);
@@ -35,6 +36,8 @@ class RestaurantDetailProvider extends ChangeNotifier {
         notifyListeners();
         return _restaurantResult = restaurant;
       }
+    } on TimeoutException catch (_) {
+      _state = ResultState.noInternet;
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
