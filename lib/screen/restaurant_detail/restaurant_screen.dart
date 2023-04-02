@@ -369,7 +369,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                               height: 10.0,
                             ),
                             SizedBox(
-                              height: 100,
+                              height: 120,
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: state
@@ -428,6 +428,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 ).toList(),
                               ),
                             ),
+                            const SizedBox(
+                              height: 20.0,
+                            )
                           ],
                         ),
                       ),
@@ -442,7 +445,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 ),
               );
             } else if (state.state == ResultState.error) {
-              return Center(
+              return Expanded(
                 child: Material(
                   color: thirdColor,
                   child: Column(

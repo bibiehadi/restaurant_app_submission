@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/modal/list_restaurant.dart';
+import '../../../data/model/list_restaurant.dart';
 import '../../../themes/themes.dart';
 import '../../restaurant_detail/restaurant_screen.dart';
 

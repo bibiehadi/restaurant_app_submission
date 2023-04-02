@@ -1,6 +1,6 @@
 import 'dart:convert';
-import '../modal/list_restaurant.dart';
-import '../modal/restaurant.dart';
+import '../model/list_restaurant.dart';
+import '../model/restaurant.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {

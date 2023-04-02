@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/api/api_service.dart';
-import '../data/modal/list_restaurant.dart';
+import '../data/model/list_restaurant.dart';
 
 enum ResultListState { loading, noData, hasData, error }
 

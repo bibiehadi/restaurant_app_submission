@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app_submission/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app_submission/screen/home/component/card_restaurant.dart';
 
-import '../../../data/api/api_service.dart';
-import '../../../data/modal/list_restaurant.dart';
 import '../../../themes/themes.dart';
 
 import 'package:provider/provider.dart';

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../data/api/api_service.dart';
-import '../data/modal/restaurant.dart';
+import '../data/model/restaurant.dart';
 
 enum ResultState { loading, noData, hasData, error, noInternet }
 

@@ -60,30 +60,32 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Consumer<RestaurantSearchProvider>(
                 builder: (context, state, _) {
                   if (searchController.text == '') {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Image.asset(
-                            'assets/images/restaurant.png',
-                            fit: BoxFit.fill,
-                            width: 200,
-                            height: 200,
+                    return Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Image.asset(
+                              'assets/images/restaurant.png',
+                              fit: BoxFit.fill,
+                              width: 200,
+                              height: 200,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Text(
-                          'Find restaurant',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            'Find restaurant',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     );
                   } else if (state.state == ResultListState.loading) {
                     return Column(
@@ -127,7 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     );
                   } else if (state.state == ResultListState.error) {
-                    return Center(
+                    return Expanded(
                       child: Material(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
