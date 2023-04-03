@@ -10,7 +10,6 @@ class CardRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, RestaurantScreen.namedRoute,
@@ -59,9 +58,6 @@ class CardRestaurant extends StatelessWidget {
                           .textTheme
                           .titleLarge
                           ?.copyWith(fontWeight: FontWeight.bold)),
-                  // const SizedBox(
-                  //   height: 4,
-                  // ),
                   Row(
                     children: [
                       Text('\$\$\$\$',

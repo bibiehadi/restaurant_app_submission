@@ -39,9 +39,8 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomeScreen(),
         RestaurantScreen.namedRoute: (context) => RestaurantScreen(
             restaurantId: ModalRoute.of(context)?.settings.arguments as String),
-        SearchScreen.namedRoute: (context) => SearchScreen(),
+        SearchScreen.namedRoute: (context) => const SearchScreen(),
       },
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

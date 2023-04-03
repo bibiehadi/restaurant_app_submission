@@ -8,7 +8,6 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       height: headerHeight,
       color: thirdColor,

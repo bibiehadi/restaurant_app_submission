@@ -6,18 +6,8 @@ import '../../../themes/themes.dart';
 
 import 'package:provider/provider.dart';
 
-class RestaurantList extends StatefulWidget {
+class RestaurantList extends StatelessWidget {
   const RestaurantList({super.key});
-
-  @override
-  State<RestaurantList> createState() => _RestaurantListState();
-}
-
-class _RestaurantListState extends State<RestaurantList> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

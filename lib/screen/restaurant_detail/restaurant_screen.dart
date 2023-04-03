@@ -17,11 +17,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   bool isReadMore = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: thirdColor,
@@ -46,19 +41,20 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                               child: Image.network(
                                   'https://restaurant-api.dicoding.dev/images/medium/${state.restaurantResult.restaurant.pictureId}')),
                           SafeArea(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(children: [
-                              CircleAvatar(
-                                backgroundColor: secondaryColor,
-                                child: IconButton(
-                                  icon: const Icon(Icons.arrow_back),
-                                  color: Colors.white,
-                                  onPressed: () => Navigator.pop(context),
-                                ),
-                              )
-                            ]),
-                          ))
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(children: [
+                                CircleAvatar(
+                                  backgroundColor: secondaryColor,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.arrow_back),
+                                    color: Colors.white,
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                )
+                              ]),
+                            ),
+                          )
                         ],
                       ),
                       Container(
@@ -217,20 +213,21 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                   maxLines: isReadMore ? 10 : 2,
                                 ),
                                 Container(
-                                    alignment: Alignment.bottomRight,
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: InkWell(
-                                      child: Text(
-                                        isReadMore ? "Read less" : "Read more",
-                                        style: const TextStyle(
-                                            color: secondaryColor),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          isReadMore = !isReadMore;
-                                        });
-                                      },
-                                    ))
+                                  alignment: Alignment.bottomRight,
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    child: Text(
+                                      isReadMore ? "Read less" : "Read more",
+                                      style: const TextStyle(
+                                          color: secondaryColor),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        isReadMore = !isReadMore;
+                                      });
+                                    },
+                                  ),
+                                )
                               ],
                             ),
                             const Divider(
@@ -445,7 +442,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 ),
               );
             } else if (state.state == ResultState.error) {
-              return Expanded(
+              return Center(
                 child: Material(
                   color: thirdColor,
                   child: Column(
@@ -457,12 +454,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         child: Image.asset(
                           'assets/images/no-wifi.png',
                           fit: BoxFit.fill,
-                          width: 200,
-                          height: 200,
+                          width: 150,
+                          height: 150,
                         ),
                       ),
                       const SizedBox(
-                        height: 25,
+                        height: 15,
                       ),
                       Text(
                         'No internet connection',
