@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app_submission/data/api/api_service.dart';
 import 'package:restaurant_app_submission/provider/restaurant_search_provider.dart';
 
+import '../../enum/result_state_enum.dart';
 import '../../themes/themes.dart';
-import '../home/component/card_restaurant.dart';
+import '../../widget/card_restaurant.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String namedRoute = '/search';
@@ -91,7 +92,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ],
                     );
-                  } else if (state.state == ResultListState.loading) {
+                  } else if (state.state == ResultState.loading) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         const Text('Please wait..'),
                       ],
                     );
-                  } else if (state.state == ResultListState.hasData) {
+                  } else if (state.state == ResultState.hasData) {
                     return Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: defaultPadding / 2),
@@ -126,13 +127,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         }),
                       ),
                     );
-                  } else if (state.state == ResultListState.noData) {
+                  } else if (state.state == ResultState.noData) {
                     return Center(
                       child: Material(
                         child: Text(state.message),
                       ),
                     );
-                  } else if (state.state == ResultListState.error) {
+                  } else if (state.state == ResultState.error) {
                     return Material(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

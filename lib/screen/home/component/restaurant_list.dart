@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app_submission/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app_submission/screen/home/component/card_restaurant.dart';
 
+import '../../../enum/result_state_enum.dart';
 import '../../../themes/themes.dart';
 
 import 'package:provider/provider.dart';
@@ -153,11 +154,11 @@ class RestaurantList extends StatelessWidget {
             Expanded(
               child: Consumer<RestaurantProvider>(
                 builder: (context, state, _) {
-                  if (state.state == ResultListState.loading) {
+                  if (state.state == ResultState.loading) {
                     return const Center(
                       child: CircularProgressIndicator(color: secondaryColor),
                     );
-                  } else if (state.state == ResultListState.hasData) {
+                  } else if (state.state == ResultState.hasData) {
                     return Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: defaultPadding / 2),
@@ -171,13 +172,13 @@ class RestaurantList extends StatelessWidget {
                         }),
                       ),
                     );
-                  } else if (state.state == ResultListState.noData) {
+                  } else if (state.state == ResultState.noData) {
                     return Center(
                       child: Material(
                         child: Text(state.message),
                       ),
                     );
-                  } else if (state.state == ResultListState.error) {
+                  } else if (state.state == ResultState.error) {
                     return Material(
                       color: primaryColor,
                       child: Column(

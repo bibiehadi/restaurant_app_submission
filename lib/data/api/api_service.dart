@@ -25,11 +25,17 @@ class ApiService {
   }
 
   Future<RestaurantSearchResult> searchRestaurant(String keyword) async {
-    final response = await http.get(Uri.parse('${_baseUrl}search?q=$keyword'));
-    if (response.statusCode == 200) {
-      return RestaurantSearchResult.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load restaurant');
+    try {
+      final response =
+          await http.get(Uri.parse('${_baseUrl}search?q=$keyword'));
+      if (response.statusCode == 200) {
+        return RestaurantSearchResult.fromJson(json.decode(response.body));
+      } else {
+        print('${response.statusCode}');
+        throw Exception('Failed to load restaurant ${response.statusCode}');
+      }
+    } on Exception catch (e) {
+      throw Exception('Failed to load restaurant $e');
     }
   }
 }

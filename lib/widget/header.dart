@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app_submission/themes/themes.dart';
 
-import '../../search/search_screen.dart';
+import '../screen/restaurant_search/restaurant_search_screen.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key});
+  final String title;
+  final String subTitle;
+  final bool isSearched;
+
+  const HomeHeader(
+      {Key? key,
+      required this.title,
+      required this.subTitle,
+      required this.isSearched})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,32 +29,33 @@ class HomeHeader extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Restaurant',
+                  Text(title,
                       style: Theme.of(context)
                           .textTheme
                           .headlineLarge
                           ?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.black)),
-                  Text('Recomandation Restaurant For You!',
+                  Text(subTitle,
                       style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
-              InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.circular(10)),
-                  padding: const EdgeInsets.all(8),
-                  child: const Icon(
-                    Icons.search,
-                    color: thirdColor,
+              if (isSearched)
+                InkWell(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    padding: const EdgeInsets.all(8),
+                    child: const Icon(
+                      Icons.search,
+                      color: thirdColor,
+                    ),
                   ),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, SearchScreen.namedRoute);
-                },
-              )
+                  onTap: () {
+                    Navigator.pushNamed(context, SearchScreen.namedRoute);
+                  },
+                )
             ],
           ),
         ],

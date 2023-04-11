@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app_submission/screen/home/home_screen.dart';
 import 'package:restaurant_app_submission/screen/restaurant_detail/restaurant_screen.dart';
-import 'package:restaurant_app_submission/screen/search/search_screen.dart';
+import 'package:restaurant_app_submission/screen/restaurant_search/restaurant_search_screen.dart';
 import 'package:restaurant_app_submission/screen/splash_screen.dart';
 import 'package:restaurant_app_submission/themes/themes.dart';
 

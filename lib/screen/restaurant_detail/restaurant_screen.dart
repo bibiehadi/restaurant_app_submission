@@ -4,6 +4,8 @@ import 'package:restaurant_app_submission/provider/restaurant_detail_provider.da
 import 'package:restaurant_app_submission/themes/themes.dart';
 import 'package:provider/provider.dart';
 
+import '../../enum/result_state_enum.dart';
+
 class RestaurantScreen extends StatefulWidget {
   static const String namedRoute = '/restaurant';
   final String restaurantId;
@@ -31,291 +33,247 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               );
             } else if (state.state == ResultState.hasData) {
               return SingleChildScrollView(
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          Hero(
-                              tag: state.restaurantResult.restaurant.pictureId,
-                              child: Image.network(
-                                  'https://restaurant-api.dicoding.dev/images/medium/${state.restaurantResult.restaurant.pictureId}')),
-                          SafeArea(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(children: [
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        Hero(
+                            tag: state.restaurantResult.restaurant.pictureId,
+                            child: Image.network(
+                                'https://restaurant-api.dicoding.dev/images/medium/${state.restaurantResult.restaurant.pictureId}')),
+                        SafeArea(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
                                 CircleAvatar(
-                                  backgroundColor: secondaryColor,
+                                  backgroundColor: primaryColor,
                                   child: IconButton(
                                     icon: const Icon(Icons.arrow_back),
                                     color: Colors.white,
                                     onPressed: () => Navigator.pop(context),
                                   ),
-                                )
-                              ]),
-                            ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(defaultPadding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  state.restaurantResult.restaurant.name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
                                 ),
-                                Row(children: <Widget>[
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                state.restaurantResult.restaurant.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                              ),
+                              Row(
+                                children: <Widget>[
                                   Icon(
                                     Icons.star_border_outlined,
                                     size: 20,
                                     color: Colors.amber.shade600,
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
                                   ),
                                   Text(
                                       state.restaurantResult.restaurant.rating
                                           .toString(),
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleMedium)
-                                ]),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            Text(state.restaurantResult.restaurant.address,
-                                style: Theme.of(context).textTheme.bodyLarge),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.location_on,
-                                      size: 20,
-                                      color: Colors.red.shade400,
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(state.restaurantResult.restaurant.city,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 100.0,
-                                ),
-                                Flexible(
-                                  child: SizedBox(
-                                    height: 40,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: state.restaurantResult
-                                          .restaurant.categories
-                                          .map(
-                                            (cat) => Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 4),
-                                              alignment: Alignment.center,
-                                              child: TextButton(
-                                                onPressed: () {},
-                                                style: TextButton.styleFrom(
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  backgroundColor:
-                                                      Colors.grey.shade200,
-                                                  side: const BorderSide(
-                                                      color: primaryColor,
-                                                      width: 1),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                ),
-                                                child: Text(
-                                                  cat.name,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelLarge
-                                                      ?.copyWith(
-                                                          color:
-                                                              secondaryColor),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
+                                          .titleMedium),
+                                  const SizedBox(
+                                    width: 8,
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            Text(
-                              'Price',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Rp. 50,000 - Rp. 100,000',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: defaultPadding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Description : ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            Wrap(
-                              children: [
-                                Text(
-                                  state.restaurantResult.restaurant.description,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  maxLines: isReadMore ? 10 : 2,
-                                ),
-                                Container(
-                                  alignment: Alignment.bottomRight,
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: InkWell(
-                                    child: Text(
-                                      isReadMore ? "Read less" : "Read more",
-                                      style: const TextStyle(
-                                          color: secondaryColor),
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        isReadMore = !isReadMore;
-                                      });
-                                    },
+                                  IconButton(
+                                    icon: const Icon(
+                                        Icons.favorite_border_rounded),
+                                    color: Colors.red,
+                                    onPressed: () => Navigator.pop(context),
                                   ),
-                                )
-                              ],
-                            ),
-                            const Divider(
-                              color: Colors.grey,
-                              height: 25,
-                              thickness: 1,
-                              indent: 3,
-                              endIndent: 5,
-                            ),
-                            Text(
-                              'Menus : ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            Text(
-                              'Foods : ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            SizedBox(
-                              height: 130,
-                              child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: state
-                                      .restaurantResult.restaurant.menus.foods
-                                      .map((food) {
-                                    return Container(
-                                        width: 130,
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 4),
-                                        decoration: BoxDecoration(
-                                            border:
-                                                Border.all(color: primaryColor),
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              child: Container(
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          Text(state.restaurantResult.restaurant.address,
+                              style: Theme.of(context).textTheme.bodyLarge),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 20,
+                                    color: Colors.red.shade400,
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(state.restaurantResult.restaurant.city,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 100.0,
+                              ),
+                              Flexible(
+                                child: SizedBox(
+                                  height: 40,
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    children: state
+                                        .restaurantResult.restaurant.categories
+                                        .map(
+                                          (cat) => Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 4),
+                                            alignment: Alignment.center,
+                                            child: TextButton(
+                                              onPressed: () {},
+                                              style: TextButton.styleFrom(
                                                 padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Image.asset(
-                                                  'assets/images/ramen.png',
-                                                  fit: BoxFit.fill,
+                                                    const EdgeInsets.all(10),
+                                                backgroundColor:
+                                                    Colors.grey.shade200,
+                                                side: const BorderSide(
+                                                    color: primaryColor,
+                                                    width: 1),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
                                                 ),
                                               ),
+                                              child: Text(
+                                                cat.name,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelLarge
+                                                    ?.copyWith(
+                                                        color: secondaryColor),
+                                              ),
                                             ),
-                                            Text(
-                                              food.name,
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ));
-                                  }).toList()),
-                            ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            Text(
-                              'Drinks : ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            SizedBox(
-                              height: 130,
-                              child: ListView(
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            'Price',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Rp. 50,000 - Rp. 100,000',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Description : ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Wrap(
+                            children: [
+                              Text(
+                                state.restaurantResult.restaurant.description,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                maxLines: isReadMore ? 10 : 2,
+                              ),
+                              Container(
+                                alignment: Alignment.bottomRight,
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  child: Text(
+                                    isReadMore ? "Read less" : "Read more",
+                                    style:
+                                        const TextStyle(color: secondaryColor),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      isReadMore = !isReadMore;
+                                    });
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                          const Divider(
+                            color: Colors.grey,
+                            height: 25,
+                            thickness: 1,
+                            indent: 3,
+                            endIndent: 5,
+                          ),
+                          Text(
+                            'Menus : ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            'Foods : ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          SizedBox(
+                            height: 130,
+                            child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: state
-                                    .restaurantResult.restaurant.menus.drinks
-                                    .map(
-                                  (drink) {
-                                    return Container(
+                                    .restaurantResult.restaurant.menus.foods
+                                    .map((food) {
+                                  return Container(
                                       width: 130,
                                       margin: const EdgeInsets.symmetric(
                                           horizontal: 4),
@@ -332,113 +290,184 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                               padding:
                                                   const EdgeInsets.all(10.0),
                                               child: Image.asset(
-                                                'assets/images/drink.png',
+                                                'assets/images/ramen.png',
                                                 fit: BoxFit.fill,
                                               ),
                                             ),
                                           ),
-                                          Text(drink.name)
+                                          Text(
+                                            food.name,
+                                            textAlign: TextAlign.center,
+                                          )
                                         ],
-                                      ),
-                                    );
-                                  },
-                                ).toList(),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            const Divider(
-                              color: Colors.grey,
-                              height: 25,
-                              thickness: 1,
-                              indent: 3,
-                              endIndent: 5,
-                            ),
-                            Text(
-                              'Review : ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            SizedBox(
-                              height: 120,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: state
-                                    .restaurantResult.restaurant.customerReviews
-                                    .map(
-                                  (reviewer) {
-                                    return Container(
-                                      width: 200,
-                                      padding: const EdgeInsets.all(10.0),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: primaryColor),
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            reviewer.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge
-                                                ?.copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                      ));
+                                }).toList()),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          Text(
+                            'Drinks : ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          SizedBox(
+                            height: 130,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: state
+                                  .restaurantResult.restaurant.menus.drinks
+                                  .map(
+                                (drink) {
+                                  return Container(
+                                    width: 130,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 4),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: primaryColor),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Image.asset(
+                                              'assets/images/drink.png',
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
-                                          const SizedBox(
-                                            height: 5.0,
-                                          ),
-                                          Text(
-                                            reviewer.date,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelMedium,
-                                          ),
-                                          const SizedBox(
-                                            height: 10.0,
-                                          ),
-                                          Text(
-                                            reviewer.review,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                            maxLines: 2,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ).toList(),
-                              ),
+                                        ),
+                                        Text(drink.name)
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ).toList(),
                             ),
-                            const SizedBox(
-                              height: 20.0,
-                            )
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          const Divider(
+                            color: Colors.grey,
+                            height: 25,
+                            thickness: 1,
+                            indent: 3,
+                            endIndent: 5,
+                          ),
+                          Text(
+                            'Review : ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          SizedBox(
+                            height: 120,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: state
+                                  .restaurantResult.restaurant.customerReviews
+                                  .map(
+                                (reviewer) {
+                                  return Container(
+                                    width: 200,
+                                    padding: const EdgeInsets.all(10.0),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 4),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: primaryColor),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          reviewer.name,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Text(
+                                          reviewer.date,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                        const SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Text(
+                                          reviewer.review,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          maxLines: 2,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ).toList(),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                          )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               );
             } else if (state.state == ResultState.noData) {
               return Center(
                 child: Material(
-                  child: Text(state.message),
+                  color: thirdColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset(
+                          'assets/images/no-wifi.png',
+                          fit: BoxFit.fill,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        'No internet connection',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
               );
             } else if (state.state == ResultState.error) {
@@ -473,9 +502,34 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 ),
               );
             } else {
-              return const Center(
+              return Center(
                 child: Material(
-                  child: Text(''),
+                  color: thirdColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset(
+                          'assets/images/no-wifi.png',
+                          fit: BoxFit.fill,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        'No internet connection',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }
