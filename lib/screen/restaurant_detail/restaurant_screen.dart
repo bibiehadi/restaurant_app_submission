@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app_submission/data/api/api_service.dart';
+import 'package:restaurant_app_submission/data/model/list_restaurant.dart';
+import 'package:restaurant_app_submission/data/model/restaurant.dart';
 import 'package:restaurant_app_submission/provider/restaurant_detail_provider.dart';
+import 'package:restaurant_app_submission/provider/restaurant_favorite_provider.dart';
 import 'package:restaurant_app_submission/themes/themes.dart';
 import 'package:provider/provider.dart';
 
@@ -9,10 +12,13 @@ import '../../enum/result_state_enum.dart';
 class RestaurantScreen extends StatefulWidget {
   static const String namedRoute = '/restaurant';
   final String restaurantId;
-  const RestaurantScreen({super.key, required this.restaurantId});
+  const RestaurantScreen({Key? key, required this.restaurantId})
+      : super(key: key);
 
   @override
-  State<RestaurantScreen> createState() => _RestaurantScreenState();
+  State<RestaurantScreen> createState() {
+    return _RestaurantScreenState();
+  }
 }
 
 class _RestaurantScreenState extends State<RestaurantScreen> {
@@ -20,11 +26,14 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String resId = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       backgroundColor: thirdColor,
       body: ChangeNotifierProvider(
         create: (_) => RestaurantDetailProvider(
-            apiService: ApiService(), id: widget.restaurantId),
+            apiService: ApiService(),
+            restaurantId:
+                widget.restaurantId == '' ? resId : widget.restaurantId),
         child: Consumer<RestaurantDetailProvider>(
           builder: (context, state, _) {
             if (state.state == ResultState.loading) {
@@ -35,30 +44,48 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    Stack(
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Hero(
-                            tag: state.restaurantResult.restaurant.pictureId,
-                            child: Image.network(
-                                'https://restaurant-api.dicoding.dev/images/medium/${state.restaurantResult.restaurant.pictureId}')),
-                        SafeArea(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: primaryColor,
-                                  child: IconButton(
-                                    icon: const Icon(Icons.arrow_back),
-                                    color: Colors.white,
-                                    onPressed: () => Navigator.pop(context),
-                                  ),
-                                ),
-                              ],
+                        Stack(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.4,
+                              child: Hero(
+                                  tag: state
+                                      .restaurantResult.restaurant.pictureId,
+                                  child: Image.network(
+                                    'https://restaurant-api.dicoding.dev/images/medium/${state.restaurantResult.restaurant.pictureId}',
+                                    fit: BoxFit.fitWidth,
+                                  )),
                             ),
-                          ),
-                        )
+                            SafeArea(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: primaryColor,
+                                      child: IconButton(
+                                        icon: const Icon(Icons.arrow_back),
+                                        color: Colors.white,
+                                        onPressed: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                                bottom: 15,
+                                right: 10,
+                                child: FavoriteButton(
+                                    restaurant:
+                                        state.restaurantResult.restaurant))
+                          ],
+                        ),
                       ],
                     ),
                     Container(
@@ -93,12 +120,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                           .titleMedium),
                                   const SizedBox(
                                     width: 8,
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(
-                                        Icons.favorite_border_rounded),
-                                    color: Colors.red,
-                                    onPressed: () => Navigator.pop(context),
                                   ),
                                 ],
                               ),
@@ -536,6 +557,56 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           },
         ),
       ),
+    );
+  }
+}
+
+class FavoriteButton extends StatelessWidget {
+  const FavoriteButton({Key? key, required this.restaurant}) : super(key: key);
+  final Restaurant restaurant;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<RestaurantFavoriteProvider>(
+      builder: ((context, value, child) {
+        if (value.favorites.where((res) => res.id == restaurant.id).isEmpty) {
+          return GestureDetector(
+            onTap: () {
+              value.addFavRestaurant(RestaurantTile(
+                  id: restaurant.id,
+                  name: restaurant.name,
+                  description: restaurant.description,
+                  pictureId: restaurant.pictureId,
+                  city: restaurant.city,
+                  rating: restaurant.rating));
+            },
+            child: const CircleAvatar(
+              minRadius: 30,
+              backgroundColor: primaryColor,
+              child: Icon(
+                Icons.favorite_border_rounded,
+                color: Colors.red,
+                size: 30,
+              ),
+            ),
+          );
+        } else {
+          return GestureDetector(
+            onTap: () {
+              value.deleteFavRestaurant(restaurant.id);
+            },
+            child: const CircleAvatar(
+              minRadius: 30,
+              backgroundColor: primaryColor,
+              child: Icon(
+                Icons.favorite_rounded,
+                color: Colors.red,
+                size: 30,
+              ),
+            ),
+          );
+        }
+      }),
     );
   }
 }

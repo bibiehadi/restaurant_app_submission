@@ -8,10 +8,11 @@ import '../enum/result_state_enum.dart';
 
 class RestaurantDetailProvider extends ChangeNotifier {
   final ApiService apiService;
-  final String id;
+  final String restaurantId;
 
-  RestaurantDetailProvider({required this.apiService, required this.id}) {
-    _fetchRestaurantDetail(id);
+  RestaurantDetailProvider(
+      {required this.apiService, required this.restaurantId}) {
+    _fetchRestaurantDetail(restaurantId);
   }
 
   late RestaurantResult _restaurantResult;

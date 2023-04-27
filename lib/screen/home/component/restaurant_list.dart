@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app_submission/provider/restaurant_list_provider.dart';
-import 'package:restaurant_app_submission/screen/home/component/card_restaurant.dart';
+import 'package:restaurant_app_submission/widget/card_restaurant.dart';
 
 import '../../../enum/result_state_enum.dart';
 import '../../../themes/themes.dart';
