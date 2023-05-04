@@ -120,6 +120,7 @@ class _MyAppState extends State<MyApp> {
                   ModalRoute.of(context)?.settings.arguments as String),
           SearchScreen.namedRoute: (context) => const SearchScreen(),
         },
+        //test push new branch to public git
       ),
     );
   }
