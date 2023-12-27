@@ -49,7 +49,11 @@ class CardRestaurant extends StatelessWidget {
                       height: 100,
                       fit: BoxFit.fill,
                       errorBuilder: (context, error, stackTrace) =>
-                          const Center(child: Text("Image could't be loaded")),
+                          const Center(
+                              child: Text(
+                        "Image could't be loaded",
+                        textAlign: TextAlign.center,
+                      )),
                     ),
                   ),
                 ),

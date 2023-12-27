@@ -10,7 +10,7 @@ import 'restaurant_list_provider_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
-  group('fetch restaurant', () {
+  group('fetchRestaurant Detail', () {
     test('return an restaurant if the http call completes successfully',
         () async {
       final client = MockClient();
@@ -72,16 +72,23 @@ void main() {
                 }
               }''', 200));
 
-      expect(
-          await getRestaurant(
-              'https://restaurant-api.dicoding.dev/detail/rqdv5juczeskfw1e867'),
-          isA<RestaurantResult>());
+      expect(await getRestaurant(client), isA<RestaurantResult>());
+    });
+
+    test('throw an exception if the http call completes with a error', () {
+      final client = MockClient();
+      when(client.get(Uri.parse(
+              'https://restaurant-api.dicoding.dev/detail/rqdv5juczeskfw1e867')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+
+      expect(getRestaurant(client), throwsException);
     });
   });
 }
 
-Future<RestaurantResult> getRestaurant(String url) async {
-  final response = await http.get(Uri.parse(url));
+Future<RestaurantResult> getRestaurant(http.Client client) async {
+  final response = await client.get(Uri.parse(
+      'https://restaurant-api.dicoding.dev/detail/rqdv5juczeskfw1e867'));
   if (response.statusCode == 200) {
     return RestaurantResult.fromJson(json.decode(response.body));
   } else {
