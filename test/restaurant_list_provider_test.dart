@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:restaurant_app_submission/data/api/api_service.dart';
 import 'package:restaurant_app_submission/data/model/restaurant.dart';
 
 import 'restaurant_list_provider_test.mocks.dart';
@@ -13,9 +14,10 @@ void main() {
   group('fetchRestaurant Detail', () {
     test('return an restaurant if the http call completes successfully',
         () async {
-      final client = MockClient();
+      final apiService = ApiService();
+      apiService.http = MockClient();
 
-      when(client.get(Uri.parse(
+      when(apiService.http.get(Uri.parse(
               'https://restaurant-api.dicoding.dev/detail/rqdv5juczeskfw1e867')))
           .thenAnswer((_) async => http.Response('''{
                 "error": false,
@@ -72,26 +74,19 @@ void main() {
                 }
               }''', 200));
 
-      expect(await getRestaurant(client), isA<RestaurantResult>());
+      expect(await apiService.restaurantDetail('rqdv5juczeskfw1e867'),
+          isA<RestaurantResult>());
     });
 
     test('throw an exception if the http call completes with a error', () {
-      final client = MockClient();
-      when(client.get(Uri.parse(
+      final apiService = ApiService();
+      apiService.http = MockClient();
+      when(apiService.http.get(Uri.parse(
               'https://restaurant-api.dicoding.dev/detail/rqdv5juczeskfw1e867')))
           .thenAnswer((_) async => http.Response('Not Found', 404));
 
-      expect(getRestaurant(client), throwsException);
+      expect(
+          apiService.restaurantDetail("rqdv5juczeskfw1e867"), throwsException);
     });
   });
-}
-
-Future<RestaurantResult> getRestaurant(http.Client client) async {
-  final response = await client.get(Uri.parse(
-      'https://restaurant-api.dicoding.dev/detail/rqdv5juczeskfw1e867'));
-  if (response.statusCode == 200) {
-    return RestaurantResult.fromJson(json.decode(response.body));
-  } else {
-    throw Exception('Failed to load detail restaurant');
-  }
 }

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import '../model/list_restaurant.dart';
 import '../model/restaurant.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show Client;
 
 class ApiService {
+  Client http = Client();
   static const String _baseUrl = 'https://restaurant-api.dicoding.dev/';
 
   Future<RestaurantResult> restaurantDetail(String id) async {
